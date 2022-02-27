@@ -3,8 +3,8 @@ Android news application where users can search news articles by location using 
 
 (Images of App in Progress)
 
-![Screen Shot 2022-02-08 at 11 11 43 PM](https://user-images.githubusercontent.com/76801679/154819503-70846b80-257f-43f2-ad79-4d747d738628.png)
-![Screen Shot 2022-02-08 at 11 11 59 PM](https://user-images.githubusercontent.com/76801679/154819505-59d8146d-57a4-4fbe-920f-77bdf6c11773.png)
-![Screen Shot 2022-02-08 at 11 12 10 PM](https://user-images.githubusercontent.com/76801679/154819506-3859a435-e6aa-4767-ae76-53e904b50ab7.png)
-![Screen Shot 2022-02-08 at 11 12 39 PM](https://user-images.githubusercontent.com/76801679/154819509-eec8981b-cd79-497c-9e14-9532b3e73e94.png)
+![Screen Shot 2022-02-08 at 11 11 43 PM](https://user-images.githubusercontent.com/76801679/155864507-9a596a42-d2ae-4299-9c3b-a17b15db9a1f.png)
 
+<img width="349" alt="Screen Shot 2022-02-25 at 5 28 28 PM" src="https://user-images.githubusercontent.com/76801679/155864477-6c597ad9-3533-4f54-8e81-0d6a9268f939.png">
+<img width="350" alt="Screen Shot 2022-02-25 at 5 29 18 PM" src="https://user-images.githubusercontent.com/76801679/155864479-6db01e6c-08d5-491d-9035-9b65c7118bb0.png">
+<img width="353" alt="Screen Shot 2022-02-25 at 5 29 31 PM" src="https://user-images.githubusercontent.com/76801679/155864480-002f6dc9-4125-45c6-8f14-852c5d601993.png">
