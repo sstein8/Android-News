@@ -28,7 +28,6 @@ class SourcesManager {
 
     //Load articles into top headlines page
     fun retrieveTopHeadlines(selectedCategory: String, apiKey: String, currPageNum: Int): List<Source>{
-        //progressBarArticles = findViewById(R.id.progressBarArticles)
         val request: Request = Request.Builder()
             .url("https://newsapi.org/v2/top-headlines?country=us&category=$selectedCategory&page=$currPageNum&apiKey=$apiKey")
             .build()
@@ -40,11 +39,9 @@ class SourcesManager {
         if (response.isSuccessful && !responseBody.isNullOrEmpty()) {
             val headlinesList = mutableListOf<Source>()
 
-            // Parse our way through the JSON hierarchy, picking out what we need from each Tweet
+            // Parse our way through the JSON hierarchy
             val json: JSONObject = JSONObject(responseBody)
             val articles: JSONArray = json.getJSONArray("articles")
-            Log.d("SourcesManager", "Start index = ${((currPageNum-1)*20)+1}")
-            Log.d("SourcesManager", "End index = ${(currPageNum*20)}")
 
             for (i in 0 until articles.length()) {
                 val curr: JSONObject = articles.getJSONObject(i)
@@ -82,9 +79,6 @@ class SourcesManager {
 
     //loads the different news sources based on category
     fun retrieveSources(selectedCategory: String, searchTerm: String, apiKey: String): List<Source> {
-        Log.d("SourcesManager", "Cat: $selectedCategory")
-        Log.d("SourcesManager", "Search term: $searchTerm")
-
         val request: Request = Request.Builder()
             .url("https://newsapi.org/v2/sources?country=us&category=$selectedCategory&apiKey=$apiKey")
             .build()
@@ -97,7 +91,7 @@ class SourcesManager {
         if (response.isSuccessful && !responseBody.isNullOrEmpty()) {
             val sources_list = mutableListOf<Source>()
 
-            // Parse our way through the JSON hierarchy, picking out what we need from each Tweet
+            // Parse our way through the JSON hierarchy
             val json: JSONObject = JSONObject(responseBody)
             val sources: JSONArray = json.getJSONArray("sources")
 
@@ -106,7 +100,6 @@ class SourcesManager {
                 val newsSource: String = curr.getString("name")
                 val sourceDescription: String = curr.getString("description")
                 val sourceID: String = curr.getString("id")
-
 
                 val source = Source(
                     newsSource = newsSource,
@@ -132,8 +125,6 @@ class SourcesManager {
     fun retrieveSourcesArticles(sourceID: String, searchTerm: String, apiKey: String): List<Source> {
         //Don't include source in query if they chose to skip sources
         val request: Request = if(sourceID == ""){
-            Log.d("SourceManager", "We should be here")
-
             Request.Builder()
                 .url("https://newsapi.org/v2/everything?language=en&q=$searchTerm&apiKey=$apiKey")
                 .build()
@@ -143,16 +134,14 @@ class SourcesManager {
                 .build()
         }
 
-
         // This executes the request and waits for a response from the server
         val response: Response = okHttpClient.newCall(request).execute()
         val responseBody: String? = response.body?.string()
 
         if (response.isSuccessful && !responseBody.isNullOrEmpty()) {
-
             val articles_list = mutableListOf<Source>()
 
-            // Parse our way through the JSON hierarchy, picking out what we need from each Tweet
+            // Parse our way through the JSON hierarchy
             val json: JSONObject = JSONObject(responseBody)
             val articles: JSONArray = json.getJSONArray("articles")
 
@@ -164,7 +153,6 @@ class SourcesManager {
                 val url: String = curr.getString("url")
                 val thumbnailURL = curr.getString("urlToImage")
                 val sourceID: String = curr.getJSONObject("source").getString("id")
-
 
                 val source = Source(
                     newsSource = articleSource,
@@ -188,8 +176,6 @@ class SourcesManager {
     }
 
     fun getMapSources(location: String, apiKey: String): List<Source> {
-        Log.d("Location", location)
-
         val request: Request = Request.Builder()
             .url("https://newsapi.org/v2/everything?qInTitle=$location&language=en&apiKey=$apiKey")
             .build()
@@ -202,7 +188,7 @@ class SourcesManager {
         if (response.isSuccessful && !responseBody.isNullOrEmpty()) {
             val sources_list = mutableListOf<Source>()
 
-            // Parse our way through the JSON hierarchy, picking out what we need from each Tweet
+            // Parse our way through the JSON hierarchy
             val json: JSONObject = JSONObject(responseBody)
             val articles: JSONArray = json.getJSONArray("articles")
 
@@ -215,7 +201,6 @@ class SourcesManager {
                 val thumbnailURL = curr.getString("urlToImage")
                 val sourceID: String = curr.getJSONObject("source").getString("id")
 
-
                 val source = Source(
                     newsSource = articleSource,
                     sourceDescription = "",
@@ -226,13 +211,10 @@ class SourcesManager {
                     thumbnailURL = thumbnailURL,
                     sourceID = sourceID
                 )
-
                 sources_list.add(source)
             }
-
             return sources_list
         }
-
         return listOf()
     }
 }

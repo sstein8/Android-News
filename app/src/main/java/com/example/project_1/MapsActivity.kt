@@ -44,9 +44,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapRecyclerView = findViewById(R.id.MapRecyclerView)
         mapProgressBar = findViewById(R.id.mapProgressBar)
 
-        //Initialize shared prefs
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -76,20 +73,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapResultsTitle.visibility = View.INVISIBLE
 
 
-        Log.d("SavedLat", "hi")
-        Log.d("SavedLon", savedLon)
-
         //If a prev location was set, set the pin there
         if(savedLat != "" && savedLon != ""){
-            Log.d("Saved", "In here")
-            Log.d("SavedLat", savedLat)
-            Log.d("SavedLon", savedLon)
             val coords: LatLng = LatLng(savedLat.toDouble(), savedLon.toDouble())
             val marker = MarkerOptions()
                 .position(coords)
                 .title(savedAddress)
             mMap.addMarker(marker)
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 10.0f))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 1.0f))
 
             doAsync{
                 //List of sources
@@ -123,13 +114,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(38.5, -98.0), 1.0f))
-
         mMap.setOnMapLongClickListener { coords: LatLng ->
-            Log.d("Map", "onLongClickListener")
             mMap.clear()
             mapProgressBar.visibility = View.VISIBLE
             doAsync {
-                Log.d("Map", "doAsync1")
                 val geocoder: Geocoder = Geocoder(this@MapsActivity)
                 val results: List<Address> = try {
                     geocoder.getFromLocation(
@@ -137,8 +125,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         coords.longitude,
                         10
                     )
-
-
                 } catch(exception: Exception) {
                     Log.e("MapsActivity", "Geocoding failed!", exception)
                     listOf()
@@ -146,12 +132,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 mapProgressBar.visibility = View.INVISIBLE
 
                 runOnUiThread {
-                    Log.d("Map", "UI Thread")
                     if (results.isNotEmpty()) {
                         val firstResult = results[0]
                         val addressLine = firstResult.getAddressLine(0)
                         var adminArea = firstResult.adminArea
-
                         val marker = MarkerOptions()
                             .position(coords)
                             .title(addressLine)
@@ -172,15 +156,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                                     val mapSourceAdapter = MapSourceAdapter(mapSourcesList)
                                     mapRecyclerView.adapter = mapSourceAdapter
-                                    //The LinearLayoutManager is used to set scroll direction (default is horizontal)
+                                    //The LinearLayoutManager is used to set scroll direction
                                     val horizLayoutManager = LinearLayoutManager(this@MapsActivity)
                                     horizLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
                                     mapRecyclerView.layoutManager = horizLayoutManager
                                     mapRecyclerBackground.visibility = View.VISIBLE
                                     mapResultsTitle.text = "Results for $adminArea"
                                     mapResultsTitle.visibility = View.VISIBLE
-
-
                                 }
                                 else {
                                     Toast.makeText(this@MapsActivity, "Failed to retrieve sources!", Toast.LENGTH_LONG).show()

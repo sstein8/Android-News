@@ -60,8 +60,6 @@ class SourceAdapter(val sources: List<Source>) : RecyclerView.Adapter<SourceAdap
         val newsSource: String = currentSource.newsSource
         val searchTerm: String = currentSource.term
         val sourceID: String = currentSource.sourceID
-        Log.d("SourceAdapter", newsSource)
-        Log.d("SourceAdapter", searchTerm)
 
         //when you click on the source, it should open up a new page with articles related to your search term
         holder.clickHere.setOnClickListener(){
@@ -71,7 +69,6 @@ class SourceAdapter(val sources: List<Source>) : RecyclerView.Adapter<SourceAdap
             sourceArticleIntent.putExtra("SourceName", newsSource)
             sourceArticleIntent.putExtra("SourceID", sourceID)
             context.startActivity(sourceArticleIntent)
-
         }
 
     }

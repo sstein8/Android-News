@@ -25,7 +25,6 @@ class SourcesActivity : AppCompatActivity(){
         setContentView(R.layout.activity_sources)
 
         val searchInput: String = intent.getStringExtra("SearchInput")!!
-        Log.d("MainActivity", searchInput)
         supportActionBar?.title = "Search for $searchInput"
 
         val sourcesManager = SourcesManager()
@@ -62,8 +61,8 @@ class SourcesActivity : AppCompatActivity(){
                     // Networking needs to be done on a background thread
                     progressBar.visibility = View.VISIBLE
                     doAsync {
-                        // Use our TwitterManager to get Tweets from the Twitter API. If there is network
-                        // connection issues, the catch-block will fire and we'll show the user an error message.
+                        // Use our sourcesManager to get Tweets from the API.
+                        // If there is network connection issues, the catch-block will fire and we'll show the user an error message.
                         val sourcesList: List<Source> = try {
                             sourcesManager.retrieveSources(selectedCategory, searchInput,apiKey)
                         } catch(exception: Exception) {
@@ -94,13 +93,10 @@ class SourcesActivity : AppCompatActivity(){
                     // another interface callback
                 }
             }
-            Log.d("MainActivity", "before skipSources")
 
             //Handle if user clicks skip sources button
             skipSources.setOnClickListener{
                 var skipSourcesIntent: Intent = Intent(this, SourceResultsActivity::class.java)
-                Log.d("SourcesActivity", "search term: $searchInput")
-
                 skipSourcesIntent.putExtra("SearchInput", searchInput)
                 skipSourcesIntent.putExtra("SourceName", "") //no source selected
                 skipSourcesIntent.putExtra("SourceID","")

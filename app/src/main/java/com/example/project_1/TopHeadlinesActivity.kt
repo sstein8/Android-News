@@ -30,11 +30,8 @@ class TopHeadlinesActivity : AppCompatActivity() {
         //Set the title of the screen
         supportActionBar?.title = "Top Headlines"
 
-        Log.d("TopHeadlines", "Do we get here?")
-
         //Initialize shared prefs
         val preferences = getSharedPreferences("data-persistence-file", Context.MODE_PRIVATE)
-
 
         //Get reference to the recycler view
         topHeadlinesRecyclerView = findViewById(R.id.topHeadlinesRecyclerView)
@@ -63,7 +60,7 @@ class TopHeadlinesActivity : AppCompatActivity() {
             topHeadlinesSpinner.adapter = spinner_adapter
 
             val saved = preferences.getInt("SAVED_CATEGORY",spinnerIndex)
-            Log.d("Saved", preferences.getInt("SAVED_CATEGORY",spinnerIndex).toString())
+
             if(saved != null){
                 topHeadlinesSpinner.setSelection(saved)
             }
@@ -75,17 +72,14 @@ class TopHeadlinesActivity : AppCompatActivity() {
             topHeadlinesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                     currPageNum = 1
-                    Log.d("SharedPref", "load up pos: $saved")
                     topHeadlinesSpinner.setSelection(position)
                     spinnerIndex = position
                     selectedCategory = parent.getItemAtPosition(position).toString().lowercase()
                     preferences.edit().putInt("SAVED_CATEGORY", spinnerIndex).apply()
-                    Log.d("SharedPref", "Spinner index: ${preferences.getInt("SAVED_CATEGORY", spinnerIndex)}")
                     loadPage(selectedCategory, currPageNum)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-
 
                 }
             }
@@ -93,14 +87,10 @@ class TopHeadlinesActivity : AppCompatActivity() {
             nextButton.setOnClickListener {
 
                 //if the current page is less than the last one, you can move forward
-                Log.d("TopHeadlines", "pg num: $currPageNum")
-
-
                 if (currPageNum < maxNumPages) {
                     //enable button
                     currPageNum += 1 //increase page number (next page)
                     //show next page
-                    Log.d("TopHeadlines", "New pg num: $currPageNum")
                     loadPage(selectedCategory, currPageNum)
 
                 } else {
@@ -127,8 +117,8 @@ class TopHeadlinesActivity : AppCompatActivity() {
     }
 
     fun loadPage(selectedCategory: String, currPageNum: Int){
-        // Use our TwitterManager to get Tweets from the Twitter API. If there is network
-        // connection issues, the catch-block will fire and we'll show the user an error message.
+        // Use our sourcesManager to get info from API.
+        // If there is network connection issues, the catch-block will fire and we'll show the user an error message.
         val apiKey = getString(R.string.NEWS_API_KEY)
         progressBarHeadlines.visibility = View.VISIBLE
         doAsync {

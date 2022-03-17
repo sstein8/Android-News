@@ -56,17 +56,13 @@ class MapSourceAdapter(private val articlesList: List<Source>): RecyclerView.Ada
 
         holder.url.text = currentSource.url
 
-
-        //Deal with image
+        //Load image using Picasso
         if(currentSource.thumbnailURL != "null"){
             Picasso.get().setIndicatorsEnabled(true)
             Picasso.get()
                 .load(currentSource.thumbnailURL)
-                //.resize(78,78)
                 .into(holder.thumbnail)
-
         }
-
 
         val url: String = currentSource.url
 

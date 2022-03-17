@@ -30,7 +30,6 @@ class SourceResultsActivity : AppCompatActivity() {
         progressBarArticles = findViewById(R.id.progressBarArticles)
 
 
-
         //Set title of the page
         if(sourceName == ""){ //if the user clicked skip source
             supportActionBar?.title = "Search results for $searchTerm"
@@ -43,7 +42,6 @@ class SourceResultsActivity : AppCompatActivity() {
         doAsync {
             // Use source manager to get articles from the api.
             // If there is network connection issues, the catch-block will fire and we'll show the user an error message.
-
             val articlesList: List<Source> = try {
                 sourcesManager.retrieveSourcesArticles(sourceID, searchTerm, apiKey)
             } catch(exception: Exception) {
